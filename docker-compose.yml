@@ -1,0 +1,52 @@
+version: '3.9'
+services:
+  nas-tools:
+    image: jxxghp/nas-tools:latest
+    container_name: nas-tools
+    hostname: nas-tools
+    # ports:
+    #   - "3000:3000"
+    network_mode: host
+    volumes:
+      - "/etc/localtime:/etc/localtime"
+      - "/srv/nas-tools/config:/config"
+      - "${VIDEO_STORE_PATH}:/media"
+    environment:
+      # 想切换为哪个用户来运行程序，该用户的uid
+      - PUID=1000
+      # 想切换为哪个用户来运行程序，该用户的gid
+      - PGID=1000
+      # 掩码权限，默认000，可以考虑设置为022
+      - UMASK=022
+      # 如需在启动容器时自动升级程程序请设置为true
+      - NASTOOL_AUTO_UPDATE=false
+  jellyfin:
+    image: nyanmisaka/jellyfin:latest
+    container_name: jellyfin
+    hostname: jellyfin
+    # ports:
+    #   - "8096:8096"
+    network_mode: host
+    volumes:
+      - "/etc/localtime:/etc/localtime"
+      - "/srv/jellyfin/config:/config"
+      - "/srv/jellyfin/cache:/cache"
+      - "${VIDEO_STORE_PATH}:/media"
+  qbittorrent:
+    image: linuxserver/qbittorrent
+    container_name: qbittorrent
+    hostname: qbittorrent
+    network_mode: host
+    volumes:
+      - "/etc/localtime:/etc/localtime"
+      - "/srv/qbittorrent/config:/config"
+      - "${VIDEO_STORE_PATH}:/downloads"
+  jackett:
+    image: linuxserver/jackett
+    container_name: jackett
+    hostname: jackett
+    network_mode: host
+    volumes:
+      - "/etc/localtime:/etc/localtime"
+      - "/srv/jackett/config:/config"
+      - "/srv/jackett/downloads:/downloads"
