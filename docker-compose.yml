@@ -8,7 +8,6 @@ services:
     #   - "3000:3000"
     network_mode: host
     volumes:
-      - "/etc/localtime:/etc/localtime"
       - "/srv/nas-tools/config:/config"
       - "${VIDEO_STORE_PATH}:/media"
     environment:
@@ -33,7 +32,7 @@ services:
       - "/srv/jellyfin/cache:/cache"
       - "${VIDEO_STORE_PATH}:/media"
   qbittorrent:
-    image: linuxserver/qbittorrent
+    image: linuxserver/qbittorrent:latest
     container_name: qbittorrent
     hostname: qbittorrent
     network_mode: host
@@ -42,7 +41,7 @@ services:
       - "/srv/qbittorrent/config:/config"
       - "${VIDEO_STORE_PATH}:/downloads"
   jackett:
-    image: linuxserver/jackett
+    image: linuxserver/jackett:latest
     container_name: jackett
     hostname: jackett
     network_mode: host
